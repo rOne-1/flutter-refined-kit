@@ -73,5 +73,37 @@ void main() {
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
     });
+
+    testWidgets('canceling pan gesture snaps back instead of dismissing',
+        (tester) async {
+      var dismissed = false;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: DragToDismissSheet(
+              onDismiss: () => dismissed = true,
+              handleColor: Colors.grey,
+              dismissThreshold: 200,
+              velocityThreshold: 5000,
+              child: const SizedBox(
+                  width: 300, height: 300, child: Text('content')),
+            ),
+          ),
+        ),
+      );
+
+      final gesture = await tester
+          .startGesture(tester.getCenter(find.byType(DragToDismissSheet)));
+      await gesture.moveBy(const Offset(0, 50));
+      await tester.pump();
+
+      // Cancel gesture
+      await gesture.cancel();
+      await tester.pump();
+
+      expect(dismissed, isFalse);
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+    });
   });
 }

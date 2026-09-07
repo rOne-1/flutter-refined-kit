@@ -106,6 +106,7 @@ class _DragToDismissSheetState extends State<DragToDismissSheet>
       behavior: HitTestBehavior.opaque,
       onPanUpdate: _handlePanUpdate,
       onPanEnd: _handlePanEnd,
+      onPanCancel: _snapBack,
       child: Transform.translate(
         offset: Offset(0, _dragY),
         child: Column(
