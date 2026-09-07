@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.2 — 2026-09-07
+
+Gesture Resilience & Card Lifecycle Fixes:
+
+- **SwipeableCard Lifecycle & Reset**: Added public `reset({bool animate = false})` method to `SwipeableCardState` and implemented `didUpdateWidget` for dynamic property/entry updates, allowing programmatic card cycling, reuse, and deck resetting.
+- **Gesture Arena Resilience**: Added `onPanCancel` handling to both `SwipeableCard` and `DragToDismissSheet`, ensuring interrupted or superseded gestures cleanly snap/settle back to rest via `HouseSpring` physics instead of freezing mid-motion.
+- **Direction Hint Alignment**: Corrected `SwipeDragState.activeDirection` threshold gating to strictly observe `directionHintThreshold` before activating direction flags.
+- **Showcase App Optimizations**: Resolved parent scroll conflicts in `tab_interactive_ui.dart` via pointer listener disambiguation, fixed directional hint color casing, and added live reset controls.
+
 ## 0.2.1 — 2026-09-07
 
 Mock App Verification & Shader Asset Resolution release:
