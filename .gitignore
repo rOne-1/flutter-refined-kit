@@ -5,6 +5,7 @@
 .packages
 .flutter-plugins-dependencies
 build/
+local-notes/
 
 # IDE
 .idea/
