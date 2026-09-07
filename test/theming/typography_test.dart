@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_refined_kit/theming/typography.dart';
+import 'package:flutter_refined_kit/flutter_refined_kit.dart';
 
 FontBuilder _fontBuilder(String family) {
   return ({
@@ -43,7 +43,9 @@ void main() {
   });
 
   group('buildTextTheme', () {
-    test('populates all 15 TextTheme styles with the exact typography hierarchy', () {
+    test(
+        'populates all 15 TextTheme styles with the exact typography hierarchy',
+        () {
       final textTheme = buildTextTheme(
         textColor: const Color(0xFFFFFFFF),
         displayFont: _fontBuilder('TestDisplayFont'),
@@ -64,7 +66,9 @@ void main() {
       expect(textTheme.labelSmall?.fontSize, 10.5);
     });
 
-    test('falls back to the display font for body styles when no bodyFont is given', () {
+    test(
+        'falls back to the display font for body styles when no bodyFont is given',
+        () {
       final textTheme = buildTextTheme(
         textColor: const Color(0xFF000000),
         displayFont: _fontBuilder('OnlyFont'),
@@ -81,7 +85,9 @@ void main() {
       expect(style.fontFamily, contains('Roboto'));
     });
 
-    test('falls back to fallbackFamily for an unresolvable family, without throwing', () {
+    test(
+        'falls back to fallbackFamily for an unresolvable family, without throwing',
+        () {
       final style = safeGoogleFont(
         family: 'ThisIsNotARealGoogleFontFamily12345',
         fallbackFamily: 'Roboto',

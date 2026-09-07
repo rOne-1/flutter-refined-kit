@@ -99,7 +99,9 @@ class SpringSegmentedControl<T> extends StatelessWidget {
                       style: baseStyle.copyWith(
                         fontSize: baseStyle.fontSize ?? 12.5,
                         fontWeight: baseStyle.fontWeight ?? FontWeight.w600,
-                        color: isSelected ? selectedTextColor : unselectedTextColor,
+                        color: isSelected
+                            ? selectedTextColor
+                            : unselectedTextColor,
                       ),
                       child: Text(
                         labelBuilder(item),

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_refined_kit/theming/app_theme.dart';
-import 'package:flutter_refined_kit/theming/theme_registry.dart';
-import 'package:flutter_refined_kit/theming/persisted_theme_controller.dart';
+import 'package:flutter_refined_kit/flutter_refined_kit.dart';
 
 class _TestColors extends ThemeExtension<_TestColors> {
   const _TestColors();
@@ -26,14 +24,16 @@ void main() {
   late ThemeRegistry<_TestColors> registry;
 
   setUp(() {
-    registry = ThemeRegistry<_TestColors>([_theme('a'), _theme('b'), _theme('c')]);
+    registry =
+        ThemeRegistry<_TestColors>([_theme('a'), _theme('b'), _theme('c')]);
   });
 
   group('PersistedThemeController', () {
     test('defaults to the registry default when no value is stored', () async {
       SharedPreferences.setMockInitialValues({});
       final prefs = await SharedPreferences.getInstance();
-      final controller = PersistedThemeController<_TestColors>(registry: registry, prefs: prefs);
+      final controller = PersistedThemeController<_TestColors>(
+          registry: registry, prefs: prefs);
 
       expect(controller.current.id, equals('a'));
     });
@@ -41,15 +41,18 @@ void main() {
     test('restores the previously-persisted theme id', () async {
       SharedPreferences.setMockInitialValues({'selected_theme': 'b'});
       final prefs = await SharedPreferences.getInstance();
-      final controller = PersistedThemeController<_TestColors>(registry: registry, prefs: prefs);
+      final controller = PersistedThemeController<_TestColors>(
+          registry: registry, prefs: prefs);
 
       expect(controller.current.id, equals('b'));
     });
 
-    test('setTheme updates current, notifies listeners, and persists', () async {
+    test('setTheme updates current, notifies listeners, and persists',
+        () async {
       SharedPreferences.setMockInitialValues({});
       final prefs = await SharedPreferences.getInstance();
-      final controller = PersistedThemeController<_TestColors>(registry: registry, prefs: prefs);
+      final controller = PersistedThemeController<_TestColors>(
+          registry: registry, prefs: prefs);
 
       var notified = false;
       controller.addListener(() => notified = true);
@@ -61,10 +64,12 @@ void main() {
       expect(prefs.getString('selected_theme'), equals('c'));
     });
 
-    test('setTheme with the already-current theme is a no-op, no notification', () async {
+    test('setTheme with the already-current theme is a no-op, no notification',
+        () async {
       SharedPreferences.setMockInitialValues({});
       final prefs = await SharedPreferences.getInstance();
-      final controller = PersistedThemeController<_TestColors>(registry: registry, prefs: prefs);
+      final controller = PersistedThemeController<_TestColors>(
+          registry: registry, prefs: prefs);
 
       var notifyCount = 0;
       controller.addListener(() => notifyCount++);
@@ -77,7 +82,8 @@ void main() {
     test('setThemeById resolves via the registry', () async {
       SharedPreferences.setMockInitialValues({});
       final prefs = await SharedPreferences.getInstance();
-      final controller = PersistedThemeController<_TestColors>(registry: registry, prefs: prefs);
+      final controller = PersistedThemeController<_TestColors>(
+          registry: registry, prefs: prefs);
 
       await controller.setThemeById('b');
 
@@ -87,7 +93,8 @@ void main() {
     test('next cycles through the registry and wraps around', () async {
       SharedPreferences.setMockInitialValues({});
       final prefs = await SharedPreferences.getInstance();
-      final controller = PersistedThemeController<_TestColors>(registry: registry, prefs: prefs);
+      final controller = PersistedThemeController<_TestColors>(
+          registry: registry, prefs: prefs);
 
       await controller.next();
       expect(controller.current.id, equals('b'));
@@ -109,7 +116,8 @@ void main() {
       expect(controller.current.id, equals('a'));
     });
 
-    test('legacyIdAliases resolves a renamed id passed to setThemeById', () async {
+    test('legacyIdAliases resolves a renamed id passed to setThemeById',
+        () async {
       SharedPreferences.setMockInitialValues({});
       final prefs = await SharedPreferences.getInstance();
       final controller = PersistedThemeController<_TestColors>(

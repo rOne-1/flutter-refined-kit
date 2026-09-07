@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_refined_kit/theming/theme_extension_context.dart';
+import 'package:flutter_refined_kit/flutter_refined_kit.dart';
 
 class _TestColors extends ThemeExtension<_TestColors> {
   final Color accent;
@@ -17,8 +17,8 @@ class _TestColors extends ThemeExtension<_TestColors> {
 }
 
 extension _TestColorsContext on BuildContext {
-  _TestColors get colors =>
-      themeExtensionOrDefault<_TestColors>(this, const _TestColors(Colors.black));
+  _TestColors get colors => themeExtensionOrDefault<_TestColors>(
+      this, const _TestColors(Colors.black));
 }
 
 void main() {
@@ -36,7 +36,8 @@ void main() {
     expect(capturedContext.colors.accent, equals(Colors.red));
   });
 
-  testWidgets('falls back to the supplied default when no extension is registered',
+  testWidgets(
+      'falls back to the supplied default when no extension is registered',
       (tester) async {
     late BuildContext capturedContext;
     await tester.pumpWidget(MaterialApp(

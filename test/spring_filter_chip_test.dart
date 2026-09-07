@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_refined_kit/ui/spring_filter_chip.dart';
+import 'package:flutter_refined_kit/flutter_refined_kit.dart';
 
 const _selectedDecoration = BoxDecoration(
   color: Colors.blue,
@@ -58,7 +58,8 @@ void main() {
       expect(tapped, isTrue);
     });
 
-    testWidgets('applies selectedDecoration and selectedTextColor when isSelected',
+    testWidgets(
+        'applies selectedDecoration and selectedTextColor when isSelected',
         (tester) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -76,7 +77,8 @@ void main() {
         ),
       );
 
-      final container = tester.widget<AnimatedContainer>(find.byType(AnimatedContainer));
+      final container =
+          tester.widget<AnimatedContainer>(find.byType(AnimatedContainer));
       expect(container.decoration, equals(_selectedDecoration));
 
       final text = tester.widget<Text>(find.text('Action'));
@@ -84,7 +86,8 @@ void main() {
       expect(text.style!.fontWeight, equals(FontWeight.w600));
     });
 
-    testWidgets('applies unselectedDecoration and unselectedTextColor when not selected',
+    testWidgets(
+        'applies unselectedDecoration and unselectedTextColor when not selected',
         (tester) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -102,7 +105,8 @@ void main() {
         ),
       );
 
-      final container = tester.widget<AnimatedContainer>(find.byType(AnimatedContainer));
+      final container =
+          tester.widget<AnimatedContainer>(find.byType(AnimatedContainer));
       expect(container.decoration, equals(_unselectedDecoration));
 
       final text = tester.widget<Text>(find.text('Action'));
@@ -110,7 +114,8 @@ void main() {
       expect(text.style!.fontWeight, equals(FontWeight.w400));
     });
 
-    testWidgets('a null onTap disables the tap without throwing', (tester) async {
+    testWidgets('a null onTap disables the tap without throwing',
+        (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(

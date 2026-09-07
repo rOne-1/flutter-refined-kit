@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_refined_kit/algorithms/scroll_chrome_tracker.dart';
+import 'package:flutter_refined_kit/flutter_refined_kit.dart';
 
 FixedScrollMetrics _metrics(
   double pixels, {
@@ -51,7 +51,8 @@ void main() {
         (tester) async {
       final context = await pumpContext(tester);
       final tracker = ScrollChromeTracker(collapseThreshold: 24.0);
-      tracker.handle(ScrollStartNotification(metrics: _metrics(50), context: context));
+      tracker.handle(
+          ScrollStartNotification(metrics: _metrics(50), context: context));
 
       final result = tracker.handle(ScrollUpdateNotification(
         metrics: _metrics(90),
@@ -66,7 +67,8 @@ void main() {
         (tester) async {
       final context = await pumpContext(tester);
       final tracker = ScrollChromeTracker(collapseThreshold: 24.0);
-      tracker.handle(ScrollStartNotification(metrics: _metrics(200), context: context));
+      tracker.handle(
+          ScrollStartNotification(metrics: _metrics(200), context: context));
 
       final result = tracker.handle(ScrollUpdateNotification(
         metrics: _metrics(160),
@@ -77,10 +79,12 @@ void main() {
       expect(result, isTrue);
     });
 
-    testWidgets('small movements under the threshold change nothing', (tester) async {
+    testWidgets('small movements under the threshold change nothing',
+        (tester) async {
       final context = await pumpContext(tester);
       final tracker = ScrollChromeTracker(collapseThreshold: 24.0);
-      tracker.handle(ScrollStartNotification(metrics: _metrics(100), context: context));
+      tracker.handle(
+          ScrollStartNotification(metrics: _metrics(100), context: context));
 
       final result = tracker.handle(ScrollUpdateNotification(
         metrics: _metrics(110),
@@ -91,11 +95,13 @@ void main() {
       expect(result, isNull);
     });
 
-    testWidgets('reaching the top always reveals chrome regardless of direction',
+    testWidgets(
+        'reaching the top always reveals chrome regardless of direction',
         (tester) async {
       final context = await pumpContext(tester);
       final tracker = ScrollChromeTracker();
-      tracker.handle(ScrollStartNotification(metrics: _metrics(50), context: context));
+      tracker.handle(
+          ScrollStartNotification(metrics: _metrics(50), context: context));
 
       final result = tracker.handle(ScrollUpdateNotification(
         metrics: _metrics(2),
@@ -135,7 +141,8 @@ void main() {
     testWidgets('reset clears accumulated state', (tester) async {
       final context = await pumpContext(tester);
       final tracker = ScrollChromeTracker(collapseThreshold: 24.0);
-      tracker.handle(ScrollStartNotification(metrics: _metrics(50), context: context));
+      tracker.handle(
+          ScrollStartNotification(metrics: _metrics(50), context: context));
       tracker.handle(ScrollUpdateNotification(
         metrics: _metrics(65),
         context: context,

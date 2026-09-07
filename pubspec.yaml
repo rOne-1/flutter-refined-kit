@@ -1,11 +1,14 @@
 name: flutter_refined_kit
 description: >
-  A reusable toolkit of premium motion, visual-FX, UI, and utility primitives
-  for Flutter apps -- damped spring physics, ambient glow shaders, procedural
-  grain overlays, tactile press feedback, hysteresis scroll tracking,
-  Bayesian weighted ranking, cross-platform file export, and more. Zero
-  domain coupling, pure parameter-driven APIs, no global singletons.
+  A reusable toolkit of premium motion, visual-FX, UI, theming, and utility
+  primitives for Flutter apps -- damped spring physics, ambient glow shaders,
+  procedural grain overlays, tactile press feedback, hysteresis scroll tracking,
+  Bayesian weighted ranking, cross-platform file export, a generic semantic-token
+  theme engine, and more. Zero domain coupling, pure parameter-driven APIs,
+  no global singletons.
 version: 0.1.0
+homepage: https://github.com/rOne-1/flutter-refined-kit
+repository: https://github.com/rOne-1/flutter-refined-kit
 publish_to: 'none'
 
 environment:

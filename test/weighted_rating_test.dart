@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_refined_kit/algorithms/weighted_rating.dart';
+import 'package:flutter_refined_kit/flutter_refined_kit.dart';
 
 class _RatedThing {
   final double rating;
@@ -19,12 +19,15 @@ void main() {
       expect(wr, equals(6.0));
     });
 
-    test('an item with votes == m is pulled exactly halfway toward the pool mean', () {
+    test(
+        'an item with votes == m is pulled exactly halfway toward the pool mean',
+        () {
       final wr = weightedRating(r: 8.0, v: 300, m: 300, c: 6.0);
       expect(wr, closeTo(7.0, 1e-9));
     });
 
-    test('a low-vote high-average item is pulled well below its raw average', () {
+    test('a low-vote high-average item is pulled well below its raw average',
+        () {
       // 2 votes averaging 9.0 in a pool that otherwise means 6.0 -- exactly
       // the "1-2 votes averaging 9 outranks thousands" bias this formula
       // exists to fix. The weighted score should sit close to the pool
@@ -34,7 +37,8 @@ void main() {
       expect(wr, greaterThan(6.0));
     });
 
-    test('v + m == 0 falls back to the pool mean instead of dividing by zero', () {
+    test('v + m == 0 falls back to the pool mean instead of dividing by zero',
+        () {
       final wr = weightedRating(r: 8.0, v: 0, m: 0, c: 5.5);
       expect(wr, equals(5.5));
     });
@@ -88,7 +92,9 @@ void main() {
   });
 
   group('weightedRatingOf<T>', () {
-    test('ranks a well-voted item above a low-voted high-average one against a realistic pool mean', () {
+    test(
+        'ranks a well-voted item above a low-voted high-average one against a realistic pool mean',
+        () {
       const wellVoted = _RatedThing(rating: 7.5, voteCount: 20000);
       const lowVoted = _RatedThing(rating: 9.0, voteCount: 2);
 

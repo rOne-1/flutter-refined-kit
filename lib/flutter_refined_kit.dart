@@ -1,5 +1,13 @@
 /// flutter_refined_kit -- a reusable toolkit of premium motion, visual-FX,
-/// UI, and utility primitives for Flutter apps.
+/// UI, theming, and utility primitives for Flutter apps.
+///
+/// **All implementation lives under `lib/src/`** (restructured 2026-09-07,
+/// before any consuming app imported anything from this package -- the
+/// lowest-risk moment to do it). This barrel file is the only supported
+/// public entry point; `lib/src/**` is an implementation detail that can
+/// reshape freely as more modules land. Import
+/// `package:flutter_refined_kit/flutter_refined_kit.dart`, never a
+/// `package:flutter_refined_kit/src/...` path directly.
 ///
 /// Seeded from The Lounge's Organization & Modulation Sprint audit (its
 /// Master Seed Inventory of portable candidates) and its accompanying
@@ -93,21 +101,21 @@
 /// the full mechanism/content split and a usage example.
 library;
 
-export 'physics/house_spring.dart';
-export 'physics/tactile_press_scale.dart';
-export 'algorithms/scroll_chrome_tracker.dart';
-export 'algorithms/weighted_rating.dart';
-export 'shaders/noise_grain_overlay.dart';
-export 'shaders/aurora_glow.dart';
-export 'ui/frosted_glass_surface.dart';
-export 'ui/drag_to_dismiss_sheet.dart';
-export 'ui/spring_segmented_control.dart';
-export 'ui/spring_filter_chip.dart';
-export 'ui/swipeable_card.dart';
-export 'io/universal_file_saver.dart';
-export 'theming/theme_extension_context.dart';
-export 'theming/app_theme.dart';
-export 'theming/theme_registry.dart';
-export 'theming/persisted_theme_controller.dart';
-export 'theming/shadow_tokens.dart';
-export 'theming/typography.dart';
+export 'src/physics/house_spring.dart';
+export 'src/physics/tactile_press_scale.dart';
+export 'src/algorithms/scroll_chrome_tracker.dart';
+export 'src/algorithms/weighted_rating.dart';
+export 'src/shaders/noise_grain_overlay.dart';
+export 'src/shaders/aurora_glow.dart';
+export 'src/ui/frosted_glass_surface.dart';
+export 'src/ui/drag_to_dismiss_sheet.dart';
+export 'src/ui/spring_segmented_control.dart';
+export 'src/ui/spring_filter_chip.dart';
+export 'src/ui/swipeable_card.dart';
+export 'src/io/universal_file_saver.dart';
+export 'src/theming/theme_extension_context.dart';
+export 'src/theming/app_theme.dart';
+export 'src/theming/theme_registry.dart';
+export 'src/theming/persisted_theme_controller.dart';
+export 'src/theming/shadow_tokens.dart';
+export 'src/theming/typography.dart';

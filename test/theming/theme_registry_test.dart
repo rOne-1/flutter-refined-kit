@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_refined_kit/theming/app_theme.dart';
-import 'package:flutter_refined_kit/theming/theme_registry.dart';
+import 'package:flutter_refined_kit/flutter_refined_kit.dart';
 
 class _TestColors extends ThemeExtension<_TestColors> {
   const _TestColors();
@@ -43,7 +42,8 @@ void main() {
     });
 
     test('next cycles forward through registration order', () {
-      final registry = ThemeRegistry<_TestColors>([_theme('a'), _theme('b'), _theme('c')]);
+      final registry =
+          ThemeRegistry<_TestColors>([_theme('a'), _theme('b'), _theme('c')]);
       expect(registry.next(_theme('a')).id, equals('b'));
       expect(registry.next(_theme('c')).id, equals('a'));
     });
@@ -54,7 +54,8 @@ void main() {
     });
 
     test('asserts at least one theme is provided', () {
-      expect(() => ThemeRegistry<_TestColors>([]), throwsA(isA<AssertionError>()));
+      expect(
+          () => ThemeRegistry<_TestColors>([]), throwsA(isA<AssertionError>()));
     });
   });
 }

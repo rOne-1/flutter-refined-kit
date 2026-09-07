@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_refined_kit/physics/house_spring.dart';
+import 'package:flutter_refined_kit/flutter_refined_kit.dart';
 
 void main() {
   group('HouseSpring', () {

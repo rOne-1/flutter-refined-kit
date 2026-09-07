@@ -9,6 +9,6 @@
 /// system share sheet).
 library;
 
-export 'src/saver_stub.dart'
-    if (dart.library.html) 'src/saver_web.dart'
-    if (dart.library.io) 'src/saver_native.dart';
+export 'saver_stub.dart'
+    if (dart.library.html) 'saver_web.dart'
+    if (dart.library.io) 'saver_native.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_refined_kit/theming/app_theme.dart';
+import 'package:flutter_refined_kit/flutter_refined_kit.dart';
 
 class _TestColors extends ThemeExtension<_TestColors> {
   final Color accent;
@@ -12,7 +12,9 @@ class _TestColors extends ThemeExtension<_TestColors> {
 }
 
 void main() {
-  test('AppTheme carries its identity, colors, ThemeData, and brightness together', () {
+  test(
+      'AppTheme carries its identity, colors, ThemeData, and brightness together',
+      () {
     const colors = _TestColors(Colors.teal);
     final themeData = ThemeData(brightness: Brightness.dark);
 

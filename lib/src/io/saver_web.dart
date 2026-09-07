@@ -43,8 +43,7 @@ Future<void> shareJsonFile(
         'text': subject,
         'files': [file],
       }.jsify();
-      await (jsNavigator.callMethod<JSPromise>('share'.toJS, shareData))
-          .toDart;
+      await (jsNavigator.callMethod<JSPromise>('share'.toJS, shareData)).toDart;
       return;
     }
   } catch (_) {
@@ -88,8 +87,7 @@ Future<void> shareImageFile(
         'text': subject,
         'files': [file],
       }.jsify();
-      await (jsNavigator.callMethod<JSPromise>('share'.toJS, shareData))
-          .toDart;
+      await (jsNavigator.callMethod<JSPromise>('share'.toJS, shareData)).toDart;
       return;
     }
   } catch (_) {

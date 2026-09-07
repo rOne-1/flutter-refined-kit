@@ -36,8 +36,10 @@ class PersistedThemeController<TColors extends ThemeExtension<TColors>>
     this.legacyIdAliases = const {},
   }) {
     final stored = prefs.getString(prefsKey);
-    final resolvedId = stored == null ? null : (legacyIdAliases[stored] ?? stored);
-    _current = resolvedId != null ? registry.byId(resolvedId) : registry.defaultTheme;
+    final resolvedId =
+        stored == null ? null : (legacyIdAliases[stored] ?? stored);
+    _current =
+        resolvedId != null ? registry.byId(resolvedId) : registry.defaultTheme;
   }
 
   Future<void> setTheme(AppTheme<TColors> theme) async {

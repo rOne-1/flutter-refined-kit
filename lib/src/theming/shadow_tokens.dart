@@ -7,8 +7,10 @@ import 'package:flutter/material.dart';
 /// `lib/themes/shadow_tokens.dart` (zero app coupling to begin with).
 LinearGradient buildAccentButtonGradient(Color accent) {
   final hsl = HSLColor.fromColor(accent);
-  final light = hsl.withLightness((hsl.lightness + 0.12).clamp(0.0, 1.0)).toColor();
-  final deep = hsl.withLightness((hsl.lightness - 0.16).clamp(0.0, 1.0)).toColor();
+  final light =
+      hsl.withLightness((hsl.lightness + 0.12).clamp(0.0, 1.0)).toColor();
+  final deep =
+      hsl.withLightness((hsl.lightness - 0.16).clamp(0.0, 1.0)).toColor();
   return LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,

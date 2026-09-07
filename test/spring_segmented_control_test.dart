@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_refined_kit/ui/spring_segmented_control.dart';
+import 'package:flutter_refined_kit/flutter_refined_kit.dart';
 
 void main() {
   group('SpringSegmentedControl<T>', () {
@@ -28,7 +28,8 @@ void main() {
       expect(find.text('Month'), findsOneWidget);
     });
 
-    testWidgets('tapping a segment calls onSelected with that item', (tester) async {
+    testWidgets('tapping a segment calls onSelected with that item',
+        (tester) async {
       String? selected;
       await tester.pumpWidget(
         MaterialApp(
@@ -54,7 +55,8 @@ void main() {
       expect(selected, equals('Month'));
     });
 
-    testWidgets('a single-item list does not throw a division by zero', (tester) async {
+    testWidgets('a single-item list does not throw a division by zero',
+        (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(

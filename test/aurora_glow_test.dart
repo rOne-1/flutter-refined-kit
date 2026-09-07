@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_refined_kit/shaders/aurora_glow.dart';
+import 'package:flutter_refined_kit/flutter_refined_kit.dart';
 
 void main() {
   group('AuroraGlow', () {
-    testWidgets('renders child content with explicit dark-tier colors', (tester) async {
+    testWidgets('renders child content with explicit dark-tier colors',
+        (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -25,7 +26,8 @@ void main() {
       expect(find.byType(CustomPaint), findsWidgets);
     });
 
-    testWidgets('renders child content with explicit light-tier colors', (tester) async {
+    testWidgets('renders child content with explicit light-tier colors',
+        (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -45,7 +47,8 @@ void main() {
       expect(find.byType(AuroraGlow), findsOneWidget);
     });
 
-    testWidgets('animates the glow cycle continuously when enableAnimation is true',
+    testWidgets(
+        'animates the glow cycle continuously when enableAnimation is true',
         (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
@@ -70,7 +73,8 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('can be pumped with pumpAndSettle when enableAnimation is false',
+    testWidgets(
+        'can be pumped with pumpAndSettle when enableAnimation is false',
         (tester) async {
       await tester.pumpWidget(
         const MaterialApp(

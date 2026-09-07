@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_refined_kit/shaders/noise_grain_overlay.dart';
+import 'package:flutter_refined_kit/flutter_refined_kit.dart';
 
 void main() {
   group('NoiseGrainOverlay', () {
@@ -31,7 +31,8 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('is wrapped in IgnorePointer so it never blocks touch input', (tester) async {
+    testWidgets('is wrapped in IgnorePointer so it never blocks touch input',
+        (tester) async {
       var tapped = false;
 
       await tester.pumpWidget(
@@ -62,7 +63,8 @@ void main() {
       expect(tapped, isTrue);
     });
 
-    testWidgets('opacity 0 renders without error and paints nothing', (tester) async {
+    testWidgets('opacity 0 renders without error and paints nothing',
+        (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(

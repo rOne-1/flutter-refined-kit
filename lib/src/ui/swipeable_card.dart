@@ -412,9 +412,8 @@ class SwipeableCardState extends State<SwipeableCard>
         // Fire onThresholdCrossed once per crossing, not once per pixel
         // while lingering past it -- reset on the next onPanStart so a
         // later gesture can fire it again.
-        final crossedThreshold =
-            _dragOffset.dx.abs() >= commitThreshold ||
-                _dragOffset.dy.abs() >= commitThreshold;
+        final crossedThreshold = _dragOffset.dx.abs() >= commitThreshold ||
+            _dragOffset.dy.abs() >= commitThreshold;
         if (crossedThreshold && !_hasFiredThresholdTick) {
           _hasFiredThresholdTick = true;
           widget.onThresholdCrossed?.call();
@@ -429,22 +428,30 @@ class SwipeableCardState extends State<SwipeableCard>
         final velocityThreshold = widget.velocityThreshold;
 
         if (horizontalDominant) {
-          if (_dragOffset.dx > commitThreshold || velocity.dx > velocityThreshold) {
+          if (_dragOffset.dx > commitThreshold ||
+              velocity.dx > velocityThreshold) {
             widget.onCommitDecided?.call('Right');
-            flyOff('Right', () => widget.onSwipeCommitted('Right'), velocity: velocity);
-          } else if (_dragOffset.dx < -commitThreshold || velocity.dx < -velocityThreshold) {
+            flyOff('Right', () => widget.onSwipeCommitted('Right'),
+                velocity: velocity);
+          } else if (_dragOffset.dx < -commitThreshold ||
+              velocity.dx < -velocityThreshold) {
             widget.onCommitDecided?.call('Left');
-            flyOff('Left', () => widget.onSwipeCommitted('Left'), velocity: velocity);
+            flyOff('Left', () => widget.onSwipeCommitted('Left'),
+                velocity: velocity);
           } else {
             _settleSpring(velocity: velocity);
           }
         } else {
-          if (_dragOffset.dy > commitThreshold || velocity.dy > velocityThreshold) {
+          if (_dragOffset.dy > commitThreshold ||
+              velocity.dy > velocityThreshold) {
             widget.onCommitDecided?.call('Down');
-            flyOff('Down', () => widget.onSwipeCommitted('Down'), velocity: velocity);
-          } else if (_dragOffset.dy < -commitThreshold || velocity.dy < -velocityThreshold) {
+            flyOff('Down', () => widget.onSwipeCommitted('Down'),
+                velocity: velocity);
+          } else if (_dragOffset.dy < -commitThreshold ||
+              velocity.dy < -velocityThreshold) {
             widget.onCommitDecided?.call('Up');
-            flyOff('Up', () => widget.onSwipeCommitted('Up'), velocity: velocity);
+            flyOff('Up', () => widget.onSwipeCommitted('Up'),
+                velocity: velocity);
           } else {
             _settleSpring(velocity: velocity);
           }

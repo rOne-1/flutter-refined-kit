@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_refined_kit/ui/drag_to_dismiss_sheet.dart';
+import 'package:flutter_refined_kit/flutter_refined_kit.dart';
 
 void main() {
   group('DragToDismissSheet', () {
@@ -21,7 +21,8 @@ void main() {
       expect(find.byType(Transform), findsWidgets);
     });
 
-    testWidgets('dragging past dismissThreshold calls onDismiss', (tester) async {
+    testWidgets('dragging past dismissThreshold calls onDismiss',
+        (tester) async {
       var dismissed = false;
       await tester.pumpWidget(
         MaterialApp(
@@ -30,7 +31,8 @@ void main() {
               onDismiss: () => dismissed = true,
               handleColor: Colors.grey,
               dismissThreshold: 50,
-              child: const SizedBox(width: 300, height: 300, child: Text('content')),
+              child: const SizedBox(
+                  width: 300, height: 300, child: Text('content')),
             ),
           ),
         ),
@@ -53,14 +55,15 @@ void main() {
               handleColor: Colors.grey,
               dismissThreshold: 200,
               velocityThreshold: 5000,
-              child: const SizedBox(width: 300, height: 300, child: Text('content')),
+              child: const SizedBox(
+                  width: 300, height: 300, child: Text('content')),
             ),
           ),
         ),
       );
 
-      final gesture = await tester.startGesture(
-          tester.getCenter(find.byType(DragToDismissSheet)));
+      final gesture = await tester
+          .startGesture(tester.getCenter(find.byType(DragToDismissSheet)));
       await gesture.moveBy(const Offset(0, 20));
       await gesture.up();
       await tester.pump();
