@@ -46,24 +46,28 @@
 /// as the second batch above, not the extraction the seed inventory
 /// implied.
 ///
-/// Still to come -- **swipe decision deck**, re-checked 2026-08-30 rather
-/// than trusted from the seed inventory (the dev's own reminder: a lot has
-/// changed in the source app since that audit, re-verify before repeating
-/// its claims). The corrected picture is more tractable than first
-/// assumed: The Lounge's `SwipeCard` (`lib/screens/discover_screen.dart`)
-/// is not in its own *file*, but it IS already its own class with the
-/// drag/spring/fly-off physics operating purely on internal offset/angle
-/// state -- no `MediaItem` involved in the motion code at all. Its only
-/// `MediaItem` coupling is 15 references, all concentrated in rendering
-/// the card's own visible content (title, rating, release-date badge,
-/// overview text); `isDark`/`accColor` are already explicit params, and it
-/// already uses this kit's own `OffsetSpringSimulation` shape for its fling
-/// physics. A portable version likely just swaps `required MediaItem item`
-/// for `required Widget child` and lets the caller build the poster/title/
-/// rating content itself. Still embedded in a large (1547-line), actively-
-/// used, previously-buggy screen, so still get explicit go-ahead before
-/// attempting it -- but it's a smaller, cleaner cut than "needs net-new
-/// extraction" implied.
+/// Fourth module migrated in (2026-08-30, same day) -- `ui/
+/// swipeable_card.dart`, the swipe decision deck's physics. My own initial
+/// "15 references, all in content rendering" characterization (above,
+/// before I actually read the full `_SwipeCardState.build()` method) turned
+/// out to be incomplete, not just the seed inventory being stale -- the
+/// real coupling included 7 separate `context.ambianceColors.*` reads, a
+/// Riverpod haptics provider watch, app-specific status colors, a
+/// Google-Fonts text-style helper, `OpenContainer`/`DetailScreen`
+/// navigation, and a long-press "quick status" sheet call, none of which
+/// are swipe *physics*. What migrated is exactly that physics -- pan
+/// tracking, house-spring settle-back, velocity-aware fly-off, and
+/// direction/threshold detection -- via a `builder(context, SwipeDragState)`
+/// callback that hands the caller live per-frame drag state and zero
+/// opinion on what's actually drawn. The external-trigger pattern (a
+/// `GlobalKey<SwipeableCardState>` calling `.flyOff(...)` from an action
+/// button, not just a drag release) is preserved by keeping the State class
+/// public rather than private. Caught and fixed one real bug while porting:
+/// `onDirectionChanged` was only wired to fire from the settle/fly-off
+/// animation listener, never from live `onPanUpdate` -- so a caller would
+/// never see a direction hint update *during* an actual drag, only once
+/// released. Fixed by calling the same direction-update method from
+/// `onPanUpdate` too.
 library;
 
 export 'physics/house_spring.dart';
@@ -76,4 +80,5 @@ export 'ui/frosted_glass_surface.dart';
 export 'ui/drag_to_dismiss_sheet.dart';
 export 'ui/spring_segmented_control.dart';
 export 'ui/spring_filter_chip.dart';
+export 'ui/swipeable_card.dart';
 export 'io/universal_file_saver.dart';

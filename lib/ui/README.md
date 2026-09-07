@@ -39,20 +39,28 @@ model coupling.
   app) — rather than decomposing that into color params, this version
   takes full `selectedDecoration`/`unselectedDecoration` `BoxDecoration`s
   directly.
-
-## Planned, not yet migrated
-
-- **Swipe decision deck** — re-checked 2026-08-30 rather than trusted from
-  the seed inventory. The Lounge's `SwipeCard`
-  (`lib/screens/discover_screen.dart`) isn't in its own file, but it IS
-  already its own class with the drag/spring/fly-off physics operating
-  purely on internal offset/angle state — no `MediaItem` involved in the
-  motion code. Its only `MediaItem` coupling is 15 references, all
-  concentrated in rendering the card's own visible content (title, rating,
-  release-date badge, overview); `isDark`/`accColor` are already explicit
-  params, and it already uses this kit's own `OffsetSpringSimulation` shape
-  for its fling physics. Likely just swaps `required MediaItem item` for
-  `required Widget child`. Smaller/cleaner than "needs net-new extraction"
-  implied — but still embedded in a large (1547-line), actively-used,
-  previously-buggy screen, so still get explicit go-ahead before
-  attempting it, don't fold it into a routine pass.
+- **`swipeable_card.dart`** — `SwipeableCard`/`SwipeableCardState`/
+  `SwipeDragState`, a 4-way drag-to-commit swipe-card physics wrapper (pan
+  tracking, house-spring settle-back, velocity-aware fly-off, direction/
+  threshold detection). Ported from The Lounge's `SwipeCard`/
+  `_SwipeCardState` (`lib/screens/discover_screen.dart`). **The seed
+  inventory's "15 references, all in content rendering" undersold the real
+  coupling** — the source also read `context.ambianceColors` 7 separate
+  times, watched a Riverpod haptics provider, used app-specific status
+  colors and a Google-Fonts text helper for its direction labels, and
+  hard-wired `DetailScreen` navigation plus a long-press "quick status"
+  sheet. None of that is swipe physics, so none of it was ported — a
+  `Widget Function(BuildContext, SwipeDragState) builder` callback hands the
+  caller live per-frame drag state instead, with zero opinion on what's
+  actually drawn. The external-trigger pattern (`GlobalKey<SwipeableCardState>`
+  → `.flyOff(...)`, for committing from an action button rather than a
+  drag) is preserved via a public `SwipeableCardState`. One real bug was
+  found and fixed while porting: `onDirectionChanged` was only wired to the
+  settle/fly-off animation listener, never to live `onPanUpdate`, so a
+  caller never saw a direction-hint update *during* an active drag — only
+  after release. Two new hooks were added that the source didn't expose
+  (baked into its own haptics calls instead): `onThresholdCrossed` (fires
+  once per commit-threshold crossing, not once per pixel) and
+  `onCommitDecided` (fires the instant a swipe is decided on release,
+  before the fly-off animation starts — distinct from `onSwipeCommitted`,
+  which fires once the fly-off visually completes).
