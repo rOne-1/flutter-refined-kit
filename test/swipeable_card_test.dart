@@ -267,5 +267,142 @@ void main() {
       await tester.pump();
       expect(longPressed, isTrue);
     });
+
+    testWidgets('reset(animate: false) immediately resets card to rest',
+        (tester) async {
+      final key = GlobalKey<SwipeableCardState>();
+      SwipeDragState? latest;
+      await tester.pumpWidget(harness(
+        key: key,
+        builder: (context, dragState) {
+          latest = dragState;
+          return Container(width: 260, height: 400, color: Colors.blue);
+        },
+        onSwipeCommitted: (_) {},
+      ));
+
+      // Trigger fly-off programmatically so the card is far offscreen
+      key.currentState!.flyOff('Right', () {});
+      await tester.pump();
+      expect(latest!.isFlyingOff, isTrue);
+
+      // Immediate reset without animation
+      key.currentState!.reset(animate: false);
+      await tester.pump();
+
+      expect(latest!.isFlyingOff, isFalse);
+      expect(latest!.dragOffset, equals(Offset.zero));
+      expect(latest!.angle, equals(0.0));
+      expect(latest!.activeDirection, isNull);
+    });
+
+    testWidgets('reset(animate: true) springs the card back to center',
+        (tester) async {
+      final key = GlobalKey<SwipeableCardState>();
+      SwipeDragState? latest;
+      await tester.pumpWidget(harness(
+        key: key,
+        builder: (context, dragState) {
+          latest = dragState;
+          return Container(width: 260, height: 400, color: Colors.blue);
+        },
+        onSwipeCommitted: (_) {},
+      ));
+
+      key.currentState!.flyOff('Left', () {});
+      await tester.pump();
+      expect(latest!.isFlyingOff, isTrue);
+
+      // Reset with spring animation
+      key.currentState!.reset(animate: true);
+      await tester.pump();
+      expect(latest!.isFlyingOff, isFalse);
+
+      await tester.pumpAndSettle();
+      expect(latest!.dragOffset, equals(Offset.zero));
+      expect(latest!.angle, equals(0.0));
+    });
+
+    testWidgets('onPanCancel causes card to settle back to rest',
+        (tester) async {
+      SwipeDragState? latest;
+      await tester.pumpWidget(harness(
+        builder: (context, dragState) {
+          latest = dragState;
+          return Container(width: 260, height: 400, color: Colors.blue);
+        },
+        onSwipeCommitted: (_) {},
+      ));
+
+      final gesture = await tester
+          .startGesture(tester.getCenter(find.byType(SwipeableCard)));
+      await gesture.moveBy(const Offset(50, 0));
+      await tester.pump();
+      expect(latest!.dragOffset.dx, greaterThan(0));
+
+      // Cancel the gesture instead of ending with up()
+      await gesture.cancel();
+      await tester.pumpAndSettle();
+
+      expect(latest!.dragOffset, equals(Offset.zero));
+      expect(latest!.isFlyingOff, isFalse);
+    });
+
+    testWidgets(
+        'activeDirection in build is null when drag is below directionHintThreshold',
+        (tester) async {
+      SwipeDragState? latest;
+      await tester.pumpWidget(harness(
+        builder: (context, dragState) {
+          latest = dragState;
+          return Container(width: 260, height: 400, color: Colors.blue);
+        },
+        onSwipeCommitted: (_) {},
+      ));
+
+      final gesture = await tester
+          .startGesture(tester.getCenter(find.byType(SwipeableCard)));
+      // Drag 15px (less than default directionHintThreshold of 30px)
+      await gesture.moveBy(const Offset(15, 0));
+      await tester.pump();
+
+      expect(latest!.activeDirection, isNull);
+      expect(latest!.hintOpacity, greaterThan(0.0));
+
+      // Drag past 30px
+      await gesture.moveBy(const Offset(20, 0));
+      await tester.pump();
+      expect(latest!.activeDirection, equals('Right'));
+
+      await gesture.up();
+      await tester.pumpAndSettle();
+    });
+
+    testWidgets('didUpdateWidget triggers entryDirection spring-in',
+        (tester) async {
+      SwipeDragState? latest;
+      Widget buildTest(String? entry) {
+        return harness(
+          entryDirection: entry,
+          builder: (context, dragState) {
+            latest = dragState;
+            return Container(width: 260, height: 400, color: Colors.blue);
+          },
+          onSwipeCommitted: (_) {},
+        );
+      }
+
+      await tester.pumpWidget(buildTest(null));
+      expect(latest!.dragOffset, equals(Offset.zero));
+
+      // Rebuild with entryDirection set
+      await tester.pumpWidget(buildTest('Left'));
+      await tester.pump();
+
+      expect(latest!.dragOffset.dx, lessThan(0));
+
+      await tester.pumpAndSettle();
+      expect(latest!.dragOffset, equals(Offset.zero));
+    });
   });
 }

@@ -28,6 +28,8 @@ ecosystem were re-architected into 100% native, zero-dependency Flutter primitiv
 - `Tilt3DCard` (`pmndrs/react-three-fiber`)
 - `LiquidGlassSurface` (`dashersw/liquid-glass-js`)
 
+In `v0.2.1` and `v0.2.2`, package shader asset resolution resilience was implemented alongside the standalone interactive `example/` showcase application, complete with lifecycle reset methods and gesture arena disambiguation across physics-driven components.
+
 ## Structure
 
 ```
