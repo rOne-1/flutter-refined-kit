@@ -37,6 +37,7 @@ dev_dependencies:
 flutter:
   shaders:
     - shaders/shader_gradient.frag
+    - shaders/liquid_metal.frag
 
 dependency_overrides:
   # Matches the-lounge's own override -- file_picker ^11.0.3 and
