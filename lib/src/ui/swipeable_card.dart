@@ -154,35 +154,7 @@ class SwipeableCardState extends State<SwipeableCard>
   void initState() {
     super.initState();
     if (widget.entryDirection != null) {
-      double w = 1500;
-      double h = 1500;
-      try {
-        final view = WidgetsBinding.instance.platformDispatcher.implicitView;
-        if (view != null) {
-          final s = view.physicalSize / view.devicePixelRatio;
-          w = s.width;
-          h = s.height;
-        }
-      } catch (_) {}
-
-      switch (widget.entryDirection) {
-        case 'Left':
-          _dragOffset = Offset(-w * 1.2, 0);
-          break;
-        case 'Right':
-          _dragOffset = Offset(w * 1.2, 0);
-          break;
-        case 'Up':
-          _dragOffset = Offset(0, -h * 1.2);
-          break;
-        case 'Down':
-          _dragOffset = Offset(0, h * 1.2);
-          break;
-      }
-      _angle = _dragOffset.dx / 300 * (math.pi / 8);
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) _settleSpring();
-      });
+      _applyEntryDirection(widget.entryDirection!);
     }
 
     _motionController = AnimationController.unbounded(vsync: this);
@@ -262,6 +234,77 @@ class SwipeableCardState extends State<SwipeableCard>
     if (_isFlyingOff && !_hasTriggeredComplete) {
       _hasTriggeredComplete = true;
       _onFlyOffComplete?.call();
+    }
+  }
+
+  @override
+  void didUpdateWidget(SwipeableCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!widget.isInteractive && oldWidget.isInteractive) {
+      if (!_isFlyingOff && _dragOffset != Offset.zero) {
+        _settleSpring();
+      }
+    }
+    if (widget.entryDirection != oldWidget.entryDirection &&
+        widget.entryDirection != null) {
+      _applyEntryDirection(widget.entryDirection!);
+    }
+  }
+
+  void _applyEntryDirection(String direction) {
+    double w = 1500;
+    double h = 1500;
+    try {
+      final view = WidgetsBinding.instance.platformDispatcher.implicitView;
+      if (view != null) {
+        final s = view.physicalSize / view.devicePixelRatio;
+        w = s.width;
+        h = s.height;
+      }
+    } catch (_) {}
+
+    switch (direction) {
+      case 'Left':
+        _dragOffset = Offset(-w * 1.2, 0);
+        break;
+      case 'Right':
+        _dragOffset = Offset(w * 1.2, 0);
+        break;
+      case 'Up':
+        _dragOffset = Offset(0, -h * 1.2);
+        break;
+      case 'Down':
+        _dragOffset = Offset(0, h * 1.2);
+        break;
+    }
+    _angle = _dragOffset.dx / 300 * (math.pi / 8);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _settleSpring();
+    });
+  }
+
+  /// Resets the card back to rest (`Offset.zero`, angle 0.0, not flying off).
+  ///
+  /// Cancels any active motion simulation. If [animate] is true and the card
+  /// is currently offset, it springs back to rest via [_settleSpring].
+  /// Otherwise, it snaps immediately to rest.
+  void reset({bool animate = false}) {
+    _motionController.stop();
+    _currentSimulation = null;
+    _isFlyingOff = false;
+    _flyOffDirection = null;
+    _hasTriggeredComplete = false;
+    _onFlyOffComplete = null;
+    _hasFiredThresholdTick = false;
+
+    if (animate && (_dragOffset != Offset.zero || _angle != 0.0)) {
+      _settleSpring();
+    } else {
+      setState(() {
+        _dragOffset = Offset.zero;
+        _angle = 0.0;
+      });
+      _updateActiveDirection();
     }
   }
 
@@ -360,7 +403,7 @@ class SwipeableCardState extends State<SwipeableCard>
     if (_isFlyingOff && _flyOffDirection != null) {
       activeDirection = _flyOffDirection;
       hintOpacity = 1.0;
-    } else if (hintOpacity > 0) {
+    } else if (dragDistance >= widget.directionHintThreshold) {
       if (isHorizontalDominant) {
         if (_dragOffset.dx < 0) {
           activeDirection = 'Left';
@@ -455,6 +498,11 @@ class SwipeableCardState extends State<SwipeableCard>
           } else {
             _settleSpring(velocity: velocity);
           }
+        }
+      },
+      onPanCancel: () {
+        if (!_isFlyingOff) {
+          _settleSpring();
         }
       },
       child: content,
