@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_refined_kit/flutter_refined_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'theme.dart';
+import 'tabs/tab_shaders.dart';
+import 'tabs/tab_glass_3d.dart';
+import 'tabs/tab_interactive_ui.dart';
+import 'tabs/tab_algorithms_theming.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -109,11 +113,14 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
           const SizedBox(width: 8),
         ],
       ),
-      body: Center(
-        child: Text(
-          'Tab ${_selectedTabIndex + 1}: ${_tabTitles[_selectedTabIndex]}',
-          style: TextStyle(color: colors.textPrimary),
-        ),
+      body: IndexedStack(
+        index: _selectedTabIndex,
+        children: [
+          const TabShaders(),
+          const TabGlass3D(),
+          const TabInteractiveUI(),
+          TabAlgorithmsTheming(controller: widget.controller),
+        ],
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedTabIndex,
