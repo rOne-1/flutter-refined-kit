@@ -29,3 +29,14 @@ no business logic, pure `Color`/`Duration`/geometry parameters in.
   pulses, so `color1`/`color2` need real hue separation or the "flowing"
   effect is invisible even though it's technically running -- a real bug
   The Lounge shipped twice before catching it.
+
+- **`shader_gradient.dart`** — `ShaderGradient`, 3D procedural noise flowing
+  gradient with continuous domain warping and subtle film grain overlay.
+  Compiled to native SPIR-V fragment shader (`shaders/shader_gradient.frag`)
+  via Flutter's `FragmentProgram` runtime effect pipeline. Features automatic
+  headless test fallback to pure-Flutter Canvas multi-harmonic gradient rendering.
+
+- **`liquid_metal.dart`** — `LiquidMetal`, sinusoidal domain-warping liquid chrome
+  metallic reflection shader (`shaders/liquid_metal.frag`). Simulates dynamic
+  metallic sheen and specular reflection bands over analytical geometries or
+  custom child content. Includes automatic headless test fallback painter.

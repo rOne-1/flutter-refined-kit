@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.2.0 — 2026-09-07
+
+Visual & Shader Primitives release. Re-architects vetted visual effects and
+motion components from the React/WebGL ecosystem into 100% native,
+zero-dependency Flutter primitives:
+
+- `shaders/shader_gradient.dart` (`ShaderGradient`): Procedural 3D noise
+  flowing gradient powered by native SPIR-V fragment shader
+  (`shaders/shader_gradient.frag`) with continuous domain warping and film grain overlay.
+- `shaders/liquid_metal.dart` (`LiquidMetal`): Sinusoidal domain-warping
+  metallic reflection shader (`shaders/liquid_metal.frag`) producing chrome
+  reflection ripples and sheen highlights.
+- `ui/tilt_3d_card.dart` (`Tilt3DCard`): Interactive 2.5D perspective tilt card
+  driven by pointer movement/hover and touch pan gestures, featuring dynamic
+  specular glare reflections and `HouseSpring` settle dynamics.
+- `ui/liquid_glass_surface.dart` (`LiquidGlassSurface`): visionOS-style
+  refractive surface with convex lens light curvature, specular Fresnel rim
+  lighting, chromatic dispersion fringes, and backdrop blur.
+
 ## 0.1.0 — 2026-09-07
 
 Initial release. 13 modules, seeded from The Lounge's Organization &

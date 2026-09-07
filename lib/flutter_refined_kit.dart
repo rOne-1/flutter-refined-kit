@@ -99,6 +99,17 @@
 /// generalized to `safeGoogleFont` with explicit `family`/`fallbackFamily`
 /// params instead of a hardcoded brand font). See `theming/README.md` for
 /// the full mechanism/content split and a usage example.
+///
+/// Sixth batch added (v0.2.0, 2026-09-07) -- visual & shader primitives:
+/// - `shaders/shader_gradient.dart` — continuous 3D procedural noise flowing
+///   gradient with domain warping and film grain overlay.
+/// - `shaders/liquid_metal.dart` — sinusoidal domain-warping liquid chrome
+///   metallic reflection shader.
+/// - `ui/tilt_3d_card.dart` — interactive 2.5D perspective tilt card with
+///   dynamic specular glare and HouseSpring settle dynamics.
+/// - `ui/liquid_glass_surface.dart` — visionOS-style refractive surface with
+///   convex lens simulation, Fresnel rim lighting, chromatic aberration,
+///   and backdrop blur.
 library;
 
 export 'src/physics/house_spring.dart';
@@ -119,3 +130,7 @@ export 'src/theming/theme_registry.dart';
 export 'src/theming/persisted_theme_controller.dart';
 export 'src/theming/shadow_tokens.dart';
 export 'src/theming/typography.dart';
+export 'src/shaders/shader_gradient.dart';
+export 'src/shaders/liquid_metal.dart';
+export 'src/ui/tilt_3d_card.dart';
+export 'src/ui/liquid_glass_surface.dart';

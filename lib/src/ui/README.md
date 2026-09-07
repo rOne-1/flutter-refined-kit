@@ -64,3 +64,13 @@ model coupling.
   `onCommitDecided` (fires the instant a swipe is decided on release,
   before the fly-off animation starts — distinct from `onSwipeCommitted`,
   which fires once the fly-off visually completes).
+- **`tilt_3d_card.dart`** — `Tilt3DCard`/`Tilt3DCardState`, interactive 2.5D
+  perspective tilt card responding to mouse hover and touch drag gestures.
+  Uses affine `Matrix4` perspective transformations with dynamic specular
+  glare reflection and damped `HouseSpring` settle dynamics. Zero external
+  3D dependencies.
+- **`liquid_glass_surface.dart`** — `LiquidGlassSurface`, visionOS-style
+  physical liquid glass refractive surface featuring convex lens light curvature,
+  specular Fresnel rim lighting, subtle chromatic aberration dispersion fringes,
+  and backdrop blur. Compositing layers are cleanly isolated via
+  `RepaintBoundary` to prevent route-transition artifacts.
