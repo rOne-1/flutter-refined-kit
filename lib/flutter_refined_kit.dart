@@ -46,13 +46,24 @@
 /// as the second batch above, not the extraction the seed inventory
 /// implied.
 ///
-/// Still to come -- this one genuinely needs net-new extraction work in
-/// the source app first, not just decoupling of an already-isolated file:
-/// - **Swipe decision deck** — The Lounge's Discover swipe mechanic is not
-///   isolated into its own file; it's embedded in a large, actively-used,
-///   previously-buggy screen. Extracting it touches that screen's core
-///   interaction directly, so it deserves an explicit go-ahead before
-///   attempting, not a default "keep going" during a modularization pass.
+/// Still to come -- **swipe decision deck**, re-checked 2026-08-30 rather
+/// than trusted from the seed inventory (the dev's own reminder: a lot has
+/// changed in the source app since that audit, re-verify before repeating
+/// its claims). The corrected picture is more tractable than first
+/// assumed: The Lounge's `SwipeCard` (`lib/screens/discover_screen.dart`)
+/// is not in its own *file*, but it IS already its own class with the
+/// drag/spring/fly-off physics operating purely on internal offset/angle
+/// state -- no `MediaItem` involved in the motion code at all. Its only
+/// `MediaItem` coupling is 15 references, all concentrated in rendering
+/// the card's own visible content (title, rating, release-date badge,
+/// overview text); `isDark`/`accColor` are already explicit params, and it
+/// already uses this kit's own `OffsetSpringSimulation` shape for its fling
+/// physics. A portable version likely just swaps `required MediaItem item`
+/// for `required Widget child` and lets the caller build the poster/title/
+/// rating content itself. Still embedded in a large (1547-line), actively-
+/// used, previously-buggy screen, so still get explicit go-ahead before
+/// attempting it -- but it's a smaller, cleaner cut than "needs net-new
+/// extraction" implied.
 library;
 
 export 'physics/house_spring.dart';

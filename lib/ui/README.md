@@ -40,11 +40,19 @@ model coupling.
   takes full `selectedDecoration`/`unselectedDecoration` `BoxDecoration`s
   directly.
 
-## Planned, not yet migrated — needs real extraction first, not just decoupling
+## Planned, not yet migrated
 
-- **Swipe decision deck** — The Lounge's Discover swipe mechanic isn't
-  isolated into its own file; it's embedded in a large, actively-used
-  screen with a history of swipe/gesture bugs already fixed this project.
-  Extracting it touches that screen's core interaction directly — get
-  explicit sign-off before attempting this one, don't fold it into a
-  routine modularization pass.
+- **Swipe decision deck** — re-checked 2026-08-30 rather than trusted from
+  the seed inventory. The Lounge's `SwipeCard`
+  (`lib/screens/discover_screen.dart`) isn't in its own file, but it IS
+  already its own class with the drag/spring/fly-off physics operating
+  purely on internal offset/angle state — no `MediaItem` involved in the
+  motion code. Its only `MediaItem` coupling is 15 references, all
+  concentrated in rendering the card's own visible content (title, rating,
+  release-date badge, overview); `isDark`/`accColor` are already explicit
+  params, and it already uses this kit's own `OffsetSpringSimulation` shape
+  for its fling physics. Likely just swaps `required MediaItem item` for
+  `required Widget child`. Smaller/cleaner than "needs net-new extraction"
+  implied — but still embedded in a large (1547-line), actively-used,
+  previously-buggy screen, so still get explicit go-ahead before
+  attempting it, don't fold it into a routine pass.
