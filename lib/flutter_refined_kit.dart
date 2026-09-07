@@ -68,6 +68,29 @@
 /// never see a direction hint update *during* an actual drag, only once
 /// released. Fixed by calling the same direction-update method from
 /// `onPanUpdate` too.
+///
+/// Fifth addition (2026-09-07) -- `theming/`, the theme **engine**. Was
+/// never part of the original 12-item seed inventory (that audit evaluated
+/// theming and explicitly verdicted it "mechanism portable, content is
+/// not" -- the palettes are app content, not a library asset -- so it was
+/// correctly left off the seed list). Added on direct request: the dev's
+/// own standing architectural rule for every app they build is that
+/// screens read named semantic tokens (`context.colors.accent`), never an
+/// inline `isDark ? a : b` branch, and that rule is only enforceable if the
+/// *mechanism* behind it is reusable, not reinvented per app. Unlike every
+/// module above, this isn't a straight port -- The Lounge's own
+/// `AmbianceColors` (its concrete ~26-field palette) and its 8 theme
+/// instances are that app's *content* and did not move. What moved is
+/// freshly-written generic scaffolding matching the same architecture:
+/// `AppTheme<TColors extends ThemeExtension<TColors>>`, `ThemeRegistry<TColors>`,
+/// a `ChangeNotifier`-based `PersistedThemeController<TColors>` (state-
+/// management-agnostic by design, unlike The Lounge's own Riverpod
+/// `AmbianceNotifier`), the `themeExtensionOrDefault<T>` context-read
+/// helper, plus `shadow_tokens.dart` (ported as-is, already zero-coupled)
+/// and `typography.dart` (`buildTextTheme` as-is; `safeGeistStyle`
+/// generalized to `safeGoogleFont` with explicit `family`/`fallbackFamily`
+/// params instead of a hardcoded brand font). See `theming/README.md` for
+/// the full mechanism/content split and a usage example.
 library;
 
 export 'physics/house_spring.dart';
@@ -82,3 +105,9 @@ export 'ui/spring_segmented_control.dart';
 export 'ui/spring_filter_chip.dart';
 export 'ui/swipeable_card.dart';
 export 'io/universal_file_saver.dart';
+export 'theming/theme_extension_context.dart';
+export 'theming/app_theme.dart';
+export 'theming/theme_registry.dart';
+export 'theming/persisted_theme_controller.dart';
+export 'theming/shadow_tokens.dart';
+export 'theming/typography.dart';

@@ -18,6 +18,13 @@ dependencies:
   file_picker: ^11.0.3
   share_plus: ^13.3.0
   web: ^1.0.0
+  shared_preferences: ^2.5.5
+  # A library package consumed via path dependency alongside apps that pin
+  # their own google_fonts version (The Lounge is on ^6.2.1) shouldn't force
+  # every consumer onto whatever's latest -- a broad compatible range lets
+  # each app's own pubspec pick the resolved version instead of this kit
+  # being the forcing function for an app-side major-version bump.
+  google_fonts: '>=6.2.1 <9.0.0'
 
 dev_dependencies:
   flutter_test:
