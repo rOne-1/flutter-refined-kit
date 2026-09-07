@@ -1,0 +1,24 @@
+name: flutter_refined_kit
+description: >
+  A reusable toolkit of premium motion, visual-FX, UI, and utility primitives
+  for Flutter apps -- damped spring physics, ambient glow shaders, procedural
+  grain overlays, tactile press feedback, hysteresis scroll tracking,
+  Bayesian weighted ranking, cross-platform file export, and more. Zero
+  domain coupling, pure parameter-driven APIs, no global singletons.
+version: 0.1.0
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: '>=3.44.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:

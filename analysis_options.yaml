@@ -1,0 +1,7 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    # Match The Lounge's own enforced baseline -- flutter_lints, zero
+    # tolerance for analyze issues including info-level lints.
+    curly_braces_in_flow_control_structures: true

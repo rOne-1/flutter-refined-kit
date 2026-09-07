@@ -1,0 +1,22 @@
+# Dart/Flutter package .gitignore
+
+# Build artifacts
+.dart_tool/
+.packages
+build/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# pubspec.lock is intentionally NOT committed for a package (only for apps) --
+# consumers resolve their own compatible transitive dependency versions.
+pubspec.lock
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local env/secrets, if any ever get added
+.env
