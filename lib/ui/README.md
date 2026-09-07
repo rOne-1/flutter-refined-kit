@@ -24,13 +24,24 @@ model coupling.
   are now explicit params, and the label text style no longer depends on
   the source app's own Google-Fonts helper (accepts an optional `textStyle`
   base instead). Uses this kit's own `PressableScale` and `HouseSpring`.
+- **`spring_filter_chip.dart`** — `SpringFilterChip` (was
+  `LoungeFilterChip`), a selection-chip pill. Ported from The Lounge's
+  `lib/widgets/lounge_filter_chip.dart`. **The seed inventory's "generic
+  chip multi-picker, needs net-new extraction" was stale** — the source
+  app's own audit had a separate, more current finding showing this was
+  already extracted and shared across 9 of its own chip call sites (Genre,
+  Vote Count, Provider, Language, TV Status, TV Network in Search); a
+  *second*, deliberately different chip style elsewhere in that app
+  (`HallSelectorSheet`'s private `_LanguageChip`) was intentionally left
+  separate, not unified — so it's correctly not ported here either. The
+  source widget's selected-state fill was a full `ambiance.
+  primaryButtonDecoration` (itself possibly a gradient, depending on the
+  app) — rather than decomposing that into color params, this version
+  takes full `selectedDecoration`/`unselectedDecoration` `BoxDecoration`s
+  directly.
 
-## Planned, not yet migrated — need real extraction first, not just decoupling
+## Planned, not yet migrated — needs real extraction first, not just decoupling
 
-- **Generic chip multi-picker** — currently duplicated inline in two of The
-  Lounge's own screens (`hall_selector_sheet.dart`, `search_screen.dart`),
-  not yet even a single shared widget there. Migrating this means writing
-  the shared widget for the first time, not porting an existing file.
 - **Swipe decision deck** — The Lounge's Discover swipe mechanic isn't
   isolated into its own file; it's embedded in a large, actively-used
   screen with a history of swipe/gesture bugs already fixed this project.

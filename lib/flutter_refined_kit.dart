@@ -34,11 +34,20 @@
 /// - `ui/spring_segmented_control.dart` — generic `<T>` animated pill
 ///   toggle (was `AnimatedSegmentedControl`).
 ///
-/// Still to come -- these need actual *extraction* work in the source app
-/// first, not just decoupling of an already-isolated widget file:
-/// - **Generic chip multi-picker** — currently duplicated inline in two of
-///   The Lounge's own screens (`hall_selector_sheet.dart`,
-///   `search_screen.dart`), not yet even a single shared widget there.
+/// Third module migrated in (2026-08-30, same day) -- `ui/
+/// spring_filter_chip.dart`. **Correction to the seed inventory**: it
+/// listed a "generic chip multi-picker" as duplicated inline across two
+/// screens, needing net-new extraction -- that summary was already stale.
+/// The source app's own audit had a *separate*, more current finding
+/// (D-2, done 2026-08-19) showing 9 of its chip call sites were already
+/// unified into one shared widget (`LoungeFilterChip`); only a second,
+/// deliberately different chip style stayed separate by design, not by
+/// oversight. So this was "decouple an already-isolated file" work, same
+/// as the second batch above, not the extraction the seed inventory
+/// implied.
+///
+/// Still to come -- this one genuinely needs net-new extraction work in
+/// the source app first, not just decoupling of an already-isolated file:
 /// - **Swipe decision deck** — The Lounge's Discover swipe mechanic is not
 ///   isolated into its own file; it's embedded in a large, actively-used,
 ///   previously-buggy screen. Extracting it touches that screen's core
@@ -55,4 +64,5 @@ export 'shaders/aurora_glow.dart';
 export 'ui/frosted_glass_surface.dart';
 export 'ui/drag_to_dismiss_sheet.dart';
 export 'ui/spring_segmented_control.dart';
+export 'ui/spring_filter_chip.dart';
 export 'io/universal_file_saver.dart';
