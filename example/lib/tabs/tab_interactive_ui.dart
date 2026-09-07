@@ -14,6 +14,7 @@ class _TabInteractiveUIState extends State<TabInteractiveUI> {
   final GlobalKey<SwipeableCardState> _cardKey = GlobalKey<SwipeableCardState>();
   String _swipeFeedback = 'Drag card or press action buttons below';
   int _cardIndex = 1;
+  bool _isDraggingCard = false;
 
   // SpringSegmentedControl state
   final List<String> _segments = const ['Trending', 'Critique', 'Vault'];
@@ -30,6 +31,7 @@ class _TabInteractiveUIState extends State<TabInteractiveUI> {
   ];
 
   void _resetCard() {
+    _cardKey.currentState?.reset(animate: false);
     setState(() {
       _cardIndex++;
       _swipeFeedback = 'Card #$_cardIndex ready';
@@ -41,6 +43,9 @@ class _TabInteractiveUIState extends State<TabInteractiveUI> {
     final colors = context.colors;
 
     return ListView(
+      physics: _isDraggingCard
+          ? const NeverScrollableScrollPhysics()
+          : const BouncingScrollPhysics(),
       padding: const EdgeInsets.all(20),
       children: [
         _buildSectionHeader('1. SwipeableCard (4-Way Drag Physics)', colors),
@@ -52,10 +57,26 @@ class _TabInteractiveUIState extends State<TabInteractiveUI> {
         const SizedBox(height: 16),
 
         Center(
-          child: SizedBox(
-            width: 300,
-            height: 230,
-            child: SwipeableCard(
+          child: Listener(
+            onPointerDown: (_) {
+              if (!_isDraggingCard) {
+                setState(() => _isDraggingCard = true);
+              }
+            },
+            onPointerUp: (_) {
+              if (_isDraggingCard) {
+                setState(() => _isDraggingCard = false);
+              }
+            },
+            onPointerCancel: (_) {
+              if (_isDraggingCard) {
+                setState(() => _isDraggingCard = false);
+              }
+            },
+            child: SizedBox(
+              width: 300,
+              height: 230,
+              child: SwipeableCard(
               key: _cardKey,
               isInteractive: true,
               onDirectionChanged: (dir) {
@@ -141,11 +162,13 @@ class _TabInteractiveUIState extends State<TabInteractiveUI> {
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color: (dragState.activeDirection == 'right'
+                                color: (dragState.activeDirection?.toLowerCase() == 'right'
                                         ? Colors.green
-                                        : dragState.activeDirection == 'left'
+                                        : dragState.activeDirection?.toLowerCase() == 'left'
                                             ? Colors.red
-                                            : colors.accent)
+                                            : dragState.activeDirection?.toLowerCase() == 'up'
+                                                ? colors.accent
+                                                : Colors.amber)
                                     .withValues(alpha: dragState.hintOpacity * 0.25),
                               ),
                               child: Center(
@@ -169,9 +192,10 @@ class _TabInteractiveUIState extends State<TabInteractiveUI> {
             ),
           ),
         ),
+      ),
 
         const SizedBox(height: 16),
-        // Programmatic flyOff action triggers
+        // Programmatic flyOff action triggers + Reset
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -187,7 +211,7 @@ class _TabInteractiveUIState extends State<TabInteractiveUI> {
                 child: const Icon(Icons.close, color: Colors.red, size: 24),
               ),
             ),
-            const SizedBox(width: 20),
+            const SizedBox(width: 16),
             PressableScale(
               onTap: () => _cardKey.currentState?.flyOff('Up', _resetCard),
               child: Container(
@@ -200,7 +224,7 @@ class _TabInteractiveUIState extends State<TabInteractiveUI> {
                 child: Icon(Icons.star, color: colors.accent, size: 24),
               ),
             ),
-            const SizedBox(width: 20),
+            const SizedBox(width: 16),
             PressableScale(
               onTap: () => _cardKey.currentState?.flyOff('Right', _resetCard),
               child: Container(
@@ -211,6 +235,22 @@ class _TabInteractiveUIState extends State<TabInteractiveUI> {
                   border: Border.all(color: Colors.green.withValues(alpha: 0.4)),
                 ),
                 child: const Icon(Icons.favorite, color: Colors.green, size: 24),
+              ),
+            ),
+            const SizedBox(width: 16),
+            PressableScale(
+              onTap: () {
+                _cardKey.currentState?.reset(animate: true);
+                setState(() => _swipeFeedback = 'Card reset to center');
+              },
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: colors.textSecondary.withValues(alpha: 0.15),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: colors.textSecondary.withValues(alpha: 0.3)),
+                ),
+                child: Icon(Icons.refresh, color: colors.textPrimary, size: 24),
               ),
             ),
           ],
