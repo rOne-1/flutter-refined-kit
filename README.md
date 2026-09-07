@@ -15,10 +15,10 @@ knows what a "movie" or a "hall" is.
 This package currently has structure and no code. It was seeded from
 [The Lounge](../the-lounge)'s Organization & Modulation Sprint audit, which
 inventoried 12 reusable candidates already living in that app's `lib/`. See
-`local-notes/completed pile/the_lounge_organization_modulation_sprint_triage.md`
-in that repo for the full audit (Master Seed Inventory table) and
-`documentation/modular_reusability_report.md` for the original reusability
-blueprint this package's folder structure follows.
+`documentation/modular_reusability_report.md` in that repo for the original
+reusability blueprint this package's folder structure follows (the full
+audit with source locations lives in that repo's untracked working notes,
+not in git).
 
 Nothing has been migrated in yet — that's deliberately a separate,
 later step, done module-by-module once each one's real-world use in a
