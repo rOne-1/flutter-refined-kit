@@ -80,3 +80,20 @@ dependencies:
     git:
       url: https://github.com/rOne-1/flutter-refined-kit.git
 ```
+
+## Interactive Example App
+
+The `example/` directory contains a full-featured Flutter showcase application demonstrating all 17 primitives with live interactive controls, parameter sliders, and real-time theme switching.
+
+To run the example app:
+
+```bash
+cd example
+flutter pub get
+
+# Running on Desktop (macOS / Windows / Linux) or Mobile (iOS / Android)
+flutter run
+
+# Running on Web (requires CanvasKit or Impeller for custom fragment shaders)
+flutter run -d chrome --web-renderer canvaskit
+```

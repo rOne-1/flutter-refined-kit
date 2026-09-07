@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.1 — 2026-09-07
+
+Mock App Verification & Shader Asset Resolution release:
+
+- **Shader Asset Resilience**: Implemented dual asset resolution (`widget.shaderAsset` fallback to `packages/flutter_refined_kit/${widget.shaderAsset}`) in `ShaderGradient` and `LiquidMetal`, ensuring seamless GPU shader loading when consumed as an external package.
+- **Showcase Application (`example/`)**: Complete interactive Flutter mock application exercising all 17 kit primitives across 4 dedicated sandboxes:
+  - **Tab 1: Shaders & Ambient FX**: Real-time interactive controls for `ShaderGradient`, `LiquidMetal`, `AuroraGlow`, and `NoiseGrainOverlay`.
+  - **Tab 2: Glass Optics & 2.5D Perspective**: Side-by-side comparison of `LiquidGlassSurface` (optical refraction + chromatic aberration) vs `FrostedGlassSurface` over a high-contrast canvas, plus interactive `Tilt3DCard` with specular glare reflections.
+  - **Tab 3: Interactive UI & Motion**: `SwipeableCard` 4-way drag-to-commit decision deck with threshold haptic hooks and programmatic `flyOff` actions, `SpringSegmentedControl`, `SpringFilterChip`, `DragToDismissSheet`, and `PressableScale`.
+  - **Tab 4: Algorithms & Theming**: `ScrollChromeTracker` auto-hiding header, Bayesian `weightedRating` interactive calculator, `UniversalFileSaver` export triggers, and real-time `ThemeRegistry` / `PersistedThemeController` switching across the entire application.
+
 ## 0.2.0 — 2026-09-07
 
 Visual & Shader Primitives release. Re-architects vetted visual effects and

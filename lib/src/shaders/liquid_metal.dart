@@ -140,7 +140,16 @@ class _LiquidMetalState extends State<LiquidMetal>
     if (_isLoadingShader) return;
     _isLoadingShader = true;
     try {
-      final program = await ui.FragmentProgram.fromAsset(widget.shaderAsset);
+      ui.FragmentProgram? program;
+      try {
+        program = await ui.FragmentProgram.fromAsset(widget.shaderAsset);
+      } catch (_) {
+        // When consumed as an external package, shaders are prefixed with packages/<package_name>/
+        final packageAsset =
+            'packages/flutter_refined_kit/${widget.shaderAsset}';
+        program = await ui.FragmentProgram.fromAsset(packageAsset);
+      }
+
       if (mounted) {
         setState(() {
           _program = program;
