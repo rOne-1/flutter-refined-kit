@@ -1,12 +1,12 @@
 /// IMDb-style Bayesian weighted rating.
 ///
-/// Ported as-is from The Lounge (`lib/utils/weighted_rating.dart`) --
-/// pure numeric primitives, no app-specific types. The Lounge's own file
-/// also has `meanRatingOf`/`weightedRatingOf` convenience wrappers, but
-/// those currently take `Iterable<MediaItem>` (that app's own model type)
-/// -- they need converting to a generic `<T>` + score-extractor-callback
-/// shape before they're portable, so only the core formula migrated in
-/// this pass.
+/// Ported from The Lounge (`lib/utils/weighted_rating.dart`) -- the core
+/// formula is pure numeric primitives, no app-specific types. The Lounge's
+/// own `meanRatingOf`/`weightedRatingOf` convenience wrappers took
+/// `Iterable<MediaItem>`/`MediaItem` (that app's own model type) directly;
+/// [meanRatingOf] and [weightedRatingOf] below are freshly-written generic
+/// `<T>` + score-extractor-callback versions of that same idea, not copies
+/// of the app-coupled originals.
 ///
 /// `WR = (v / (v + m)) * R + (m / (v + m)) * C`
 ///
@@ -45,4 +45,23 @@ double meanRatingOf<T>(
   if (rated.isEmpty) return 0.0;
   final sum = rated.fold<double>(0.0, (total, item) => total + ratingOf(item));
   return sum / rated.length;
+}
+
+/// Convenience wrapper computing [item]'s weighted rating against a
+/// pre-computed pool mean [poolMean] (see [meanRatingOf]) and a [minVotes]
+/// threshold (`m`), given [item]'s rating/vote count via
+/// [ratingOf]/[voteCountOf].
+double weightedRatingOf<T>(
+  T item, {
+  required double Function(T) ratingOf,
+  required int Function(T) voteCountOf,
+  required double poolMean,
+  required double minVotes,
+}) {
+  return weightedRating(
+    r: ratingOf(item),
+    v: voteCountOf(item),
+    m: minVotes,
+    c: poolMean,
+  );
 }

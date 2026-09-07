@@ -86,4 +86,28 @@ void main() {
       expect(mean, equals(7.0));
     });
   });
+
+  group('weightedRatingOf<T>', () {
+    test('ranks a well-voted item above a low-voted high-average one against a realistic pool mean', () {
+      const wellVoted = _RatedThing(rating: 7.5, voteCount: 20000);
+      const lowVoted = _RatedThing(rating: 9.0, voteCount: 2);
+
+      final wrWellVoted = weightedRatingOf(
+        wellVoted,
+        ratingOf: (t) => t.rating,
+        voteCountOf: (t) => t.voteCount,
+        poolMean: 6.5,
+        minVotes: 300,
+      );
+      final wrLowVoted = weightedRatingOf(
+        lowVoted,
+        ratingOf: (t) => t.rating,
+        voteCountOf: (t) => t.voteCount,
+        poolMean: 6.5,
+        minVotes: 300,
+      );
+
+      expect(wrWellVoted, greaterThan(wrLowVoted));
+    });
+  });
 }

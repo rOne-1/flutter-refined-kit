@@ -20,9 +20,12 @@ no business logic, pure `Color`/`Duration`/geometry parameters in.
   verdict without a fresh read of the current source — verdicts drift as
   the source app keeps evolving.
 
-## Planned, not yet migrated
-
-- **Aurora Glow** — multi-frequency organic radial-gradient drift, from The
-  Lounge's `lib/widgets/ambient_glow.dart`. Same kind of fix needed: it
-  currently falls back to `context.ambianceColors` when colors aren't
-  passed explicitly.
+- **`aurora_glow.dart`** — `AuroraGlow` (was `AmbientGlowWidget`),
+  multi-frequency organic radial-gradient drift. Ported from The Lounge's
+  `lib/widgets/ambient_glow.dart` — `color1`/`color2`/`baseColor`/`isDark`
+  were all falling back to `context.ambianceColors` when unset; all four
+  are required params here instead. **Read its doc comment before using
+  it**: the animation only moves the glow blobs' position, alpha never
+  pulses, so `color1`/`color2` need real hue separation or the "flowing"
+  effect is invisible even though it's technically running -- a real bug
+  The Lounge shipped twice before catching it.

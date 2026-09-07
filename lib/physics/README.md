@@ -16,9 +16,11 @@ Damped-spring motion primitives built on `package:flutter/physics.dart`.
   Lounge shipped this exact bug and fix — see its
   `lib/widgets/continue_watching_hero_card.dart` history.)
 
-## Planned, not yet migrated
-
-- **Tactile Press Scale** — damped micro-compression press feedback
-  wrapper, from The Lounge's `lib/widgets/pressable_scale.dart`. Needs its
-  default duration/curve parameters decoupled from (or migrated alongside)
-  `house_spring.dart`.
+- **`tactile_press_scale.dart`** — `PressableScale`, press-down/spring-back
+  tap feedback wrapper. Ported from The Lounge's
+  `lib/widgets/pressable_scale.dart` — its only coupling was its default
+  `releaseDuration`/`curve` values, now pointing at this kit's own
+  `house_spring.dart` instead of the source app's physics constants.
+  **Read the gesture-arena note in its own doc comment** before nesting
+  this inside anything with its own drag/pan recognizer — The Lounge shipped
+  a real bug from missing this exact interaction.
