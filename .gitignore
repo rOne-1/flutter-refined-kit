@@ -3,6 +3,7 @@
 # Build artifacts
 .dart_tool/
 .packages
+.flutter-plugins-dependencies
 build/
 
 # IDE

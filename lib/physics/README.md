@@ -2,19 +2,23 @@
 
 Damped-spring motion primitives built on `package:flutter/physics.dart`.
 
-Planned modules (seed source: The Lounge):
-- **House Spring Curve/Description** — the app's signature underdamped
-  spring preset (mass 1.0, stiffness 180.0, damping 14.0 — damping ratio
-  ≈0.52, deliberately overshoots and settles), from
-  `lib/constants/app_physics.dart`. Portable as-is; depends only on Flutter
-  core. Use for state-driven transitions (buttons, sheets, theme
-  switches) — **not** for direct-manipulation gestures like swipes, where
-  overshoot fights the user's own drag. See The Lounge's
-  `lib/widgets/continue_watching_hero_card.dart` for that exact lesson
-  learned the hard way.
-- **2D Offset Spring Simulation** — combined X/Y spring simulation for
-  velocity-retaining drag release/fling settling, same source file.
-- **Tactile Press Scale** — damped micro-compression press feedback wrapper,
-  from `lib/widgets/pressable_scale.dart`. Needs its default
-  duration/curve parameters decoupled from (or migrated alongside) the House
-  Spring preset above.
+## Done
+
+- **`house_spring.dart`** — `HouseSpring` (spring description, duration,
+  curve, simulation factory) and `OffsetSpringSimulation` (2D X/Y spring for
+  velocity-retaining drag-release/fling settling). Ported as-is from The
+  Lounge's `lib/constants/app_physics.dart` — depends only on Flutter core.
+  **Note on when to use it**: this is an *underdamped* spring (damping
+  ratio ≈0.52) — it deliberately overshoots and settles. Great for
+  state-driven transitions (buttons, sheets, theme switches). Wrong for
+  direct-manipulation gestures (swipes/drags), where overshoot fights the
+  user's own motion — use a plain `Curves.easeOutCubic` there instead. (The
+  Lounge shipped this exact bug and fix — see its
+  `lib/widgets/continue_watching_hero_card.dart` history.)
+
+## Planned, not yet migrated
+
+- **Tactile Press Scale** — damped micro-compression press feedback
+  wrapper, from The Lounge's `lib/widgets/pressable_scale.dart`. Needs its
+  default duration/curve parameters decoupled from (or migrated alongside)
+  `house_spring.dart`.

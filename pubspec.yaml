@@ -15,6 +15,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  file_picker: ^11.0.3
+  share_plus: ^13.3.0
+  web: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -22,3 +25,11 @@ dev_dependencies:
   flutter_lints: ^6.0.0
 
 flutter:
+
+dependency_overrides:
+  # Matches the-lounge's own override -- file_picker ^11.0.3 and
+  # share_plus ^13.3.0 pin incompatible win32 ranges otherwise. Keep this in
+  # sync with the-lounge/pubspec.yaml's own override until one of those two
+  # packages' constraints loosen.
+  win32: ^5.9.0
+
