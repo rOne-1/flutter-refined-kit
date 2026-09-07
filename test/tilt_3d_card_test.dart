@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_refined_kit/src/ui/tilt_3d_card.dart';
+import 'package:flutter_refined_kit/flutter_refined_kit.dart';
 
 void main() {
   group('Tilt3DCard', () {

@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_refined_kit/src/ui/liquid_glass_surface.dart';
+import 'package:flutter_refined_kit/flutter_refined_kit.dart';
 
 void main() {
   group('LiquidGlassSurface', () {

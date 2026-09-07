@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_refined_kit/src/shaders/shader_gradient.dart';
+import 'package:flutter_refined_kit/flutter_refined_kit.dart';
 
 void main() {
   group('ShaderGradient', () {

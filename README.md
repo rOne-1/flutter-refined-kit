@@ -16,27 +16,17 @@ knows what a "movie" or a "hall" is.
 > (snake_case) — pub package names can't contain hyphens, so the repo and
 > package names deliberately differ by that one convention.
 
-## Status: 13 modules migrated, growing
+## Status: 17 modules migrated and active
 
 Seeded from [The Lounge](../the-lounge)'s Organization & Modulation Sprint
-audit, which inventoried 12 reusable candidates already living in that
-app's `lib/` — see `documentation/modular_reusability_report.md` in that
-repo for the original reusability blueprint this package's module split
-follows (the full audit with source locations lives in that repo's
-untracked working notes, not in git). All 12 are migrated in.
+audit (12 reusable candidates) and the semantic-token `theming` engine.
 
-A 13th, `theming`, was added afterward on direct request — it was never in
-the original seed inventory (that audit correctly verdicted theming
-"mechanism portable, content is not"), but the dev's own standing rule for
-every app they build is semantic-token theming with zero inline
-`isDark ? a : b` branching, and that rule needs a reusable engine behind
-it, not a reinvention per app. Unlike the seed-inventory modules, it's not
-a straight port — see `lib/src/theming/README.md` for what's
-freshly-written generic scaffolding versus what stayed as The Lounge's own
-content.
-
-This package is not final — more utilities will be added over time as
-they prove out in whichever app builds them first.
+In `v0.2.0`, four high-polish visual and shader primitives from the React/WebGL
+ecosystem were re-architected into 100% native, zero-dependency Flutter primitives:
+- `ShaderGradient` (`ruucm/shadergradient`)
+- `LiquidMetal` (`paper-design/liquid-logo`)
+- `Tilt3DCard` (`pmndrs/react-three-fiber`)
+- `LiquidGlassSurface` (`dashersw/liquid-glass-js`)
 
 ## Structure
 
@@ -44,15 +34,19 @@ they prove out in whichever app builds them first.
 lib/
 ├── flutter_refined_kit.dart   # the ONLY public entry point (barrel export)
 └── src/                       # implementation -- do not import directly
-    ├── shaders/     — aurora glow, procedural grain overlay
+    ├── shaders/     — shader gradient, liquid metal, aurora glow, noise grain
     ├── physics/     — house spring curve, 2D offset spring simulation,
     │                  tactile press-scale wrapper
-    ├── ui/          — spring segmented control, drag-to-dismiss sheet,
-    │                  swipe decision deck, frosted glass surface, chip picker
+    ├── ui/          — 2.5D tilt card, liquid glass surface, frosted glass surface,
+    │                  drag-to-dismiss sheet, spring segmented control,
+    │                  spring filter chip, swipe decision deck
     ├── algorithms/  — scroll chrome hysteresis tracker, Bayesian weighted rating
     ├── io/          — cross-platform (web/native) file exporter
     └── theming/     — generic ThemeExtension-based theme engine (registry,
                        persisted selection, semantic-token context helper)
+shaders/             # SPIR-V compatible fragment shaders compiled by Flutter
+├── shader_gradient.frag
+└── liquid_metal.frag
 ```
 
 Everything under `lib/src/` is an implementation detail and can reshape
