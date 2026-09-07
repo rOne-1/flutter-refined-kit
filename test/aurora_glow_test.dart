@@ -74,6 +74,30 @@ void main() {
     });
 
     testWidgets(
+        'defaults to animation enabled when enableAnimation is omitted (null)',
+        (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: AuroraGlow(
+              color1: Colors.amber,
+              color2: Colors.pink,
+              baseColor: Colors.black,
+              isDark: true,
+              child: SizedBox(width: 200, height: 100),
+            ),
+          ),
+        ),
+      );
+
+      await tester.pump(Duration.zero);
+      await tester.pump(const Duration(milliseconds: 1000));
+
+      expect(find.byType(AuroraGlow), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets(
         'can be pumped with pumpAndSettle when enableAnimation is false',
         (tester) async {
       await tester.pumpWidget(
