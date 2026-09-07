@@ -127,6 +127,38 @@ void main() {
       expect(calls.any((c) => c.method == 'HapticFeedback.vibrate'), isTrue);
     });
 
+    testWidgets('hapticFeedback defaults to false -- no haptic call on press',
+        (tester) async {
+      final calls = <MethodCall>[];
+      TestWidgetsFlutterBinding.ensureInitialized()
+          .defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, (call) async {
+        calls.add(call);
+        return null;
+      });
+      addTearDown(() {
+        TestWidgetsFlutterBinding.ensureInitialized()
+            .defaultBinaryMessenger
+            .setMockMethodCallHandler(SystemChannels.platform, null);
+      });
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: PressableScale(
+              onTap: () {},
+              child: const SizedBox(width: 100, height: 100),
+            ),
+          ),
+        ),
+      );
+
+      await tester.startGesture(tester.getCenter(find.byType(PressableScale)));
+      await tester.pump();
+
+      expect(calls.any((c) => c.method == 'HapticFeedback.vibrate'), isFalse);
+    });
+
     testWidgets(
         'exposes a button semantic role, respecting enabled/disabled state',
         (tester) async {
