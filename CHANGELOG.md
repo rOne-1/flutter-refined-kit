@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.3 — 2026-09-11
+
+Android Build Compatibility:
+
+- **Bumped `file_picker` to `^12.3.0`**: the pinned `^11.0.3` applies its own Kotlin Gradle Plugin, which fails to compile (`cannot find symbol: class FilePickerPlugin`) under Android Gradle Plugin 9's built-in Kotlin support -- 12.x's federated rewrite removes that application entirely, fixing the AGP 9+ build. Updated `saver_native.dart`/`saver_web.dart`'s `pickJsonFile()` for the accompanying breaking changes: `pickFiles()` now returns `List<PlatformFile>` directly instead of a nullable `FilePickerResult`, `PlatformFile.bytes` was removed in favor of `readAsBytes()`, and `saveFile()` now returns `Uri?` instead of `String?`.
+- **Removed the `win32: ^5.9.0` dependency override**: it existed only to reconcile file_picker `^11.0.3` and share_plus `^13.3.0` pinning incompatible win32 ranges. file_picker 12's Windows implementation moved to the separate `windows_file_picker` package, which (like share_plus) now wants win32 `^6.x` -- the override was left forcing 5.x, which broke `windows_file_picker`'s own build (`Arena.pcwstr`/`.pwstr`/`.adopt` extensions, added in win32 6.3+, didn't exist yet). Removing it lets pub resolve win32 6.4.0, satisfying both.
+
 ## 0.2.2 — 2026-09-07
 
 Gesture Resilience & Card Lifecycle Fixes:

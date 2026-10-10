@@ -103,11 +103,7 @@ Future<String?> pickJsonFile() async {
     type: FileType.custom,
     allowedExtensions: ['json'],
   );
-  if (result != null && result.files.isNotEmpty) {
-    final file = result.files.first;
-    if (file.bytes != null) {
-      return utf8.decode(file.bytes!);
-    }
-  }
-  return null;
+  if (result.isEmpty) return null;
+  final bytes = await result.first.readAsBytes();
+  return utf8.decode(bytes);
 }
