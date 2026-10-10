@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:share_plus/share_plus.dart';
@@ -18,7 +17,7 @@ Future<bool> saveJsonFile(
     fileName: fileName,
     bytes: bytes,
   );
-  return path != null && path.isNotEmpty;
+  return path != null;
 }
 
 /// Opens the system share sheet with [jsonString] as a `.json` file.
@@ -73,7 +72,7 @@ Future<bool> saveImageFile(
     fileName: fileName,
     bytes: pngBytes,
   );
-  return path != null && path.isNotEmpty;
+  return path != null;
 }
 
 /// Opens a native "pick file" dialog restricted to `.json`, returning the
@@ -83,14 +82,7 @@ Future<String?> pickJsonFile() async {
     type: FileType.custom,
     allowedExtensions: ['json'],
   );
-  if (result != null && result.files.isNotEmpty) {
-    final file = result.files.first;
-    if (file.bytes != null) {
-      return utf8.decode(file.bytes!);
-    } else if (file.path != null) {
-      final ioFile = File(file.path!);
-      return await ioFile.readAsString();
-    }
-  }
-  return null;
+  if (result.isEmpty) return null;
+  final bytes = await result.first.readAsBytes();
+  return utf8.decode(bytes);
 }

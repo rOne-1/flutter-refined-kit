@@ -6,7 +6,7 @@ description: >
   Bayesian weighted ranking, cross-platform file export, a generic semantic-token
   theme engine, and more. Zero domain coupling, pure parameter-driven APIs,
   no global singletons.
-version: 0.2.2
+version: 0.2.3
 homepage: https://github.com/rOne-1/flutter-refined-kit
 repository: https://github.com/rOne-1/flutter-refined-kit
 publish_to: 'none'
@@ -18,7 +18,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  file_picker: ^11.0.3
+  file_picker: ^12.3.0
   share_plus: ^13.3.0
   web: ^1.0.0
   shared_preferences: ^2.5.5
@@ -38,11 +38,4 @@ flutter:
   shaders:
     - shaders/shader_gradient.frag
     - shaders/liquid_metal.frag
-
-dependency_overrides:
-  # Matches the-lounge's own override -- file_picker ^11.0.3 and
-  # share_plus ^13.3.0 pin incompatible win32 ranges otherwise. Keep this in
-  # sync with the-lounge/pubspec.yaml's own override until one of those two
-  # packages' constraints loosen.
-  win32: ^5.9.0
 
